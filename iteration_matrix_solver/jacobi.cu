@@ -100,26 +100,26 @@ int main() {
 
   cout << "COMPLETED SUCCESSFULLY\n";
 
-  std::cout << "A:\n";
+  cout << "A:\n";
   for (int i = 0; i < N; ++i) {
     for (int j = 0; j < N; ++j) {
-      std::cout << h_A[i * N + j] << " ";
+      cout << h_A[i * N + j] << " ";
     }
-    std::cout << "\n";
+    cout << "\n";
   }
-  std::cout << "\n";
+  cout << "\n";
 
-  std::cout << "b:\n";
+  cout << "b:\n";
   for (int i = 0; i < N; ++i) {
-    std::cout << h_b[i] << " ";
+    cout << h_b[i] << " ";
   }
-  std::cout << "\n";
+  cout << "\n";
 
-  std::cout << "x:\n";
+  cout << "x:\n";
   for (int i = 0; i < N; ++i) {
-    std::cout << h_x[i] << " ";
+    cout << h_x[i] << " ";
   }
-  std::cout << "\n";
+  cout << "\n";
 
   // Free memory on device
   cudaFree(d_A);
