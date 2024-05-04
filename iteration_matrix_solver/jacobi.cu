@@ -41,14 +41,13 @@ int get_random_sign() {
 }
 
 int main() {
-    int N = 1 << 5; // Matrix size
+    int N = 1 << 5;
     size_t bytes = N * N * sizeof(float);
 
     vector<float> h_A(N * N);
     vector<float> h_b(N);
     vector<float> h_x(N);
 
-    // Initialize matrices
     generate(h_A.begin(), h_A.end(), []() { return get_random_sign() * get_random_num(); });
     generate(h_b.begin(), h_b.end(), []() { return get_random_sign() * get_random_num(); });
 
@@ -65,13 +64,12 @@ int main() {
         h_A[row * N + row] = abs_sum + 1 + get_random_num();
     }
 
-    // Allocate device memory
+
     float *d_A, *d_b, *d_x;
     cudaMalloc(&d_A, bytes);
     cudaMalloc(&d_b, N * sizeof(float));
     cudaMalloc(&d_x, N * sizeof(float));
 
-    // Copy data to the device
     cudaMemcpy(d_A, h_A.data(), bytes, cudaMemcpyHostToDevice);
     cudaMemcpy(d_b, h_b.data(), N * sizeof(float), cudaMemcpyHostToDevice);
 
@@ -81,18 +79,16 @@ int main() {
     dim3 threads(THREADS);
     dim3 blocks(BLOCKS);
 
-    // Initialize x to 0
     cudaMemset(d_x, 0, N * sizeof(float));
 
-    // Perform Jacobi iterations
-    for (int iter = 0; iter < 10000; iter++) { // adjust the number of iterations as needed
+    
+    for (int iter = 0; iter < 10000; iter++) { 
         jacobi_iteration<<<blocks, threads>>>(d_A, d_b, d_x, N);
     }
 
-    // Copy back to the host
+
     cudaMemcpy(h_x.data(), d_x, N * sizeof(float), cudaMemcpyDeviceToHost);
 
-    // Check result
     verify_result(h_x, h_b, h_A, N);
 
     cout << "COMPLETED SUCCESSFULLY\n";
@@ -118,7 +114,7 @@ int main() {
     }
     cout << "\n";
 
-    // Free memory on device
+
     cudaFree(d_A);
     cudaFree(d_b);
     cudaFree(d_x);
