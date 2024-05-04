@@ -1,6 +1,3 @@
-// This program solves a matrix equation using the Jacobi method on a GPU
-// By: [Your Name]
-
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
